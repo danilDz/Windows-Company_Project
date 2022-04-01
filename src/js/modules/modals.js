@@ -33,9 +33,9 @@ const modals = () => {
         })
     }
 
-    setTimeout(() => {
-        bindModal('', '.popup', '.popup .popup_close')
-    }, 60000)
+    // setTimeout(() => {
+    //     bindModal('', '.popup', '.popup .popup_close')
+    // }, 60000)
     
     bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close')
     bindModal('.phone_link', '.popup', '.popup .popup_close')
