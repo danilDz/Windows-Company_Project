@@ -1,13 +1,10 @@
-const forms = () => {
-    const form = document.querySelectorAll('form'),
-          input = document.querySelectorAll('input'),
-          phoneInputs = document.querySelectorAll('input[name="user_phone"]')
+import checkNumInputs from "./checkNumInputs";
 
-    phoneInputs.forEach(item => {
-        item.addEventListener('input', () => {
-            item.value = item.value.replace(/\D/, '')
-        })
-    })
+const forms = (state) => {
+    const form = document.querySelectorAll('form'),
+          input = document.querySelectorAll('input');
+
+    checkNumInputs('input[name="user_phone"]')
 
     const messages = {
         loading: 'Loading...',
@@ -40,6 +37,11 @@ const forms = () => {
             item.appendChild(statusMessage)
 
             const formData = new FormData(item)
+            if (item.getAttribute('data-calc') === 'end') {
+                for (let key in state) {
+                    formData.append(key, state[key])
+                }
+            }
             
             postData('assets/server.php', formData).then(res => {
                 console.log(res)
@@ -49,7 +51,11 @@ const forms = () => {
             }).finally(() => {
                 clearInputs()
                 setTimeout(() => {
-                    statusMessage.remove()
+                    statusMessage.remove();
+                    document.querySelectorAll('[data-modal]').forEach(modal => {
+                        modal.style.display = 'none'
+                    });
+                    document.body.classList.remove('modal-open');
                 }, 3000)
             })
         })
