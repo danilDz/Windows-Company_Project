@@ -3,7 +3,8 @@ const modals = () => {
 
         const modal = document.querySelector(modalSelector),
             close = document.querySelector(closeSelector),
-            windows = document.querySelectorAll('[data-modal]')
+            windows = document.querySelectorAll('[data-modal]'),
+            scroll = calcScroll()
 
         if (triggerSelector === '') {
             modal.style.display = 'block';
@@ -22,6 +23,7 @@ const modals = () => {
 
                     modal.style.display = 'block';
                     document.body.classList.add('modal-open')
+                    document.body.style.marginRight = `${scroll}px`
                 })
             })
         }
@@ -29,6 +31,7 @@ const modals = () => {
         close.addEventListener('click', () => {
             modal.style.display = 'none';
             document.body.classList.remove('modal-open')
+            document.body.style.marginRight = `0px`
             windows.forEach(item => {
                 item.style.display = 'none'
             })
@@ -41,6 +44,7 @@ const modals = () => {
                 })
                 modal.style.display = 'none';
                 document.body.classList.remove('modal-open')
+                document.body.style.marginRight = `0px`
             }
         })
     }
@@ -48,6 +52,20 @@ const modals = () => {
     // setTimeout(() => {
     //     bindModal('', '.popup', '.popup .popup_close')
     // }, 60000)
+
+    function calcScroll () {
+        let div = document.createElement('div')
+        div.style.width = '50px'
+        div.style.height = '50px'
+        div.style.overflowY = 'scroll'
+        div.style.visibility = 'hidden'
+
+        document.body.appendChild(div)
+        let srcollWidth = div.offsetWidth - div.clientWidth
+
+        div.remove()
+        return srcollWidth
+    }
     
     bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close')
     bindModal('.phone_link', '.popup', '.popup .popup_close')
